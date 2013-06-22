@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b User:
+  = @friendship.user_id
+%p
+  %b Friend:
+  = @friendship.friend_id
+%p
+  %b Create:
+  = @friendship.create
+%p
+  %b Destroy:
+  = @friendship.destroy
+
+= link_to 'Edit', edit_friendship_path(@friendship)
+\|
+= link_to 'Back', friendships_path
