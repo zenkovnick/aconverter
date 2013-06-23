@@ -28,6 +28,7 @@ gem 'devise'
 gem 'ruby-debug-base19x', '0.11.30.pre12'
 gem 'ruby-debug19', :require => 'ruby-debug'
 
+gem 'safe_attributes'
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

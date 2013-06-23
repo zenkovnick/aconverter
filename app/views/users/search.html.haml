@@ -16,9 +16,17 @@
     = f.submit 'Search'
 
 %div
-  - if @friend.present?
-    %span
-      = @friend.username.blank? ? 'No Username' : @friend.username
-    %span
-      = @friend.email
-
+  - if @friends.present?
+    - @friends.each do |friend|
+      %span
+        = friend.username.blank? ? 'No Username' : friend.username
+      %span
+        = friend.email
+      %span
+        - if current_user.is_friend?(friend)
+          - if current_user.is_active_friend?(friend)
+            = link_to 'Remove from friends', { :controller => 'friendships', :action => 'destroy_friendship', :friend_id => friend.id}
+          - else
+            Inactive Friend
+        - else
+          = link_to 'Add to friends', { :controller => 'friendships', :action => 'new_friendship', :friend_id => friend.id}

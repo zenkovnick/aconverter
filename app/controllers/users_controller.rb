@@ -86,7 +86,13 @@ class UsersController < ApplicationController
     @user = User.new
     unless params.nil?
       user = User.new(params[:user])
-      @friend = User.where(:email => user.email).first
+      if user.email.present? && user.username.present?
+        @friends = User.where(:email => user.email, :username => user.username)
+      elsif user.email.present?
+        @friends = User.where(:email => user.email)
+      elsif user.username.present?
+        @friends = User.where(:username => user.username)
+      end
     end
   end
 end
