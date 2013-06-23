@@ -9,17 +9,17 @@
     %th
     %th
     %th
-
-  - @users.each do |user|
+  - if @curr_user.friendships.count > 0
+    - @curr_user.friendships.each do |friendship|
+      %tr
+        %td= friendship.friend.username
+        %td= friendship.friend.nickname
+        %td= friendship.friend.provider
+        %td= friendship.friend.url
+  - else
     %tr
-      %td= user.username
-      %td= user.nickname
-      %td= user.provider
-      %td= user.url
-      %td= link_to 'Show', user
-      %td= link_to 'Edit', edit_user_path(user)
-      %td= link_to 'Destroy', user, :method => :delete, :data => { :confirm => 'Are you sure?' }
+      %td No friends
 
 %br
 
-= link_to 'New User', new_user_path
+= link_to 'Find Friends', :controller => 'users', :action => 'search', :method => :get

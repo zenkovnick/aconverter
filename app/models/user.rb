@@ -8,4 +8,9 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
   attr_accessible :nickname, :provider, :url, :username
+
+  has_many :friendships
+  has_many :friends, :through => :friendships
+  has_many :inverse_friendships, :class_name => 'Friendship', :foreign_key => 'friend_id'
+  has_many :inverse_friends, :through => :inverse_friendships, :source => :user
 end

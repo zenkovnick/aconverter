@@ -2,8 +2,8 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
-
+    @all_users = User.all
+    @curr_user = current_user
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @users }
@@ -78,6 +78,15 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to users_url }
       format.json { head :no_content }
+    end
+  end
+
+  # GET /users/search
+  def search
+    @user = User.new
+    unless params.nil?
+      user = User.new(params[:user])
+      @friend = User.where(:email => user.email).first
     end
   end
 end
