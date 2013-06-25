@@ -1,7 +1,9 @@
 Aconverter::Application.routes.draw do
+  resources :user_files
+
+
   match '/friendships/new-friendship' => 'friendships#new_friendship'
   match '/friendships/destroy-friendship' => 'friendships#destroy_friendship'
-
 
   match '/users/search' => 'users#search'
   resources :friendships

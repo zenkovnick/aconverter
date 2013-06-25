@@ -1,0 +1,21 @@
+%h1 Listing user_files
+
+%table
+  %tr
+    %th User
+    %th Name
+    %th
+    %th
+    %th
+
+  - @user_files.each do |user_file|
+    %tr
+      %td= user_file.user_id
+      %td= user_file.name
+      %td= link_to 'Show', user_file
+      %td= link_to 'Edit', edit_user_file_path(user_file)
+      %td= link_to 'Destroy', user_file, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New User file', new_user_file_path

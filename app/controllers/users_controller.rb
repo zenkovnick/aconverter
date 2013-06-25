@@ -110,4 +110,8 @@ class UsersController < ApplicationController
       end
     end
   end
+
+  def upload
+    @file = UserFile.new
+  end
 end
