@@ -1,12 +1,27 @@
 class UsersController < ApplicationController
+  before_filter :require_login
+
+  private
+
+  def require_login
+    unless user_signed_in?
+      flash[:error] = "You must be logged in to access this section"
+    end
+  end
+
+  public
+
   # GET /users
   # GET /users.json
+
   def index
-    @all_users = User.all
-    @curr_user = current_user
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @users }
+    if user_signed_in?
+      @friendships = current_user.friendships.where(:is_active => true)
+      @inverse_friendships = current_user.inverse_friendships.where(:is_active => true)
+      respond_to do |format|
+        format.html # index.html.erb
+        format.json { render json: @users }
+      end
     end
   end
 
@@ -84,7 +99,7 @@ class UsersController < ApplicationController
   # GET /users/search
   def search
     @user = User.new
-    unless params.nil?
+    if params.has_key?(:user)
       user = User.new(params[:user])
       if user.email.present? && user.username.present?
         @friends = User.where(:email => user.email, :username => user.username)

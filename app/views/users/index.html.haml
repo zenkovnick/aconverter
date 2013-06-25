@@ -1,25 +1,32 @@
-%h1 Listing users
+- if user_signed_in?
+  %h1 Listing users
 
-%table
-  %tr
-    %th Username
-    %th Nickname
-    %th Provider
-    %th Url
-    %th
-    %th
-    %th
-  - if @curr_user.friendships.count > 0
-    - @curr_user.friendships.each do |friendship|
-      %tr
-        %td= friendship.friend.username
-        %td= friendship.friend.nickname
-        %td= friendship.friend.provider
-        %td= friendship.friend.url
-  - else
+  %table
     %tr
-      %td No friends
+      %th Email
+      %th Nickname
+      %th Provider
+      %th Url
+      %th
+      %th
+      %th
+    - if @friendships.present? || @inverse_friendships.present?
+      - @friendships.each do |friendship|
+        %tr
+          %td= friendship.friend.email
+          %td= friendship.friend.nickname
+          %td= friendship.friend.provider
+          %td= friendship.friend.url
+      - @inverse_friendships.each do |inverse_friendship|
+        %tr
+          %td= inverse_friendship.user.email
+          %td= inverse_friendship.user.nickname
+          %td= inverse_friendship.user.provider
+          %td= inverse_friendship.user.url
+    - else
+      %tr
+        %td No friends
 
-%br
+  %br
 
-= link_to 'Find Friends', :controller => 'users', :action => 'search', :method => :get
+  = link_to 'Find Friends', :controller => 'users', :action => 'search', :method => :get
