@@ -1,0 +1,11 @@
+defaults: &defaults
+  audio_output_format: .mp3
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
