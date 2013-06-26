@@ -43,7 +43,9 @@ class UserFilesController < ApplicationController
     uploaded_io = params[:user_file][:name]
     if uploaded_io.present?
       @user_file = UserFile.new
-      File.open(Rails.root.join('public', 'uploads', uploaded_io.original_filename), 'wb') do |file|
+      upload_dir = Rails.root.join('public', 'uploads')
+      Utils.check_folder(upload_dir)
+      File.open(upload_dir.join(uploaded_io.original_filename), 'wb') do |file|
         respond_to do |format|
           if file.write(uploaded_io.read)
             @user_file.name = uploaded_io.original_filename
