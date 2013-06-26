@@ -66,3 +66,22 @@
       \==================================================
     / Placed at the end of the document so the pages load faster
     = javascript_include_tag "application"
+
+
+%script(type="text/javascript")
+  function check_status(){
+  jQuery.ajax({
+  url: '/check-status',
+  dataType: 'json',
+  type: 'get',
+  success: function(data) {
+  alert(data.status)
+  setTimeout(check_status, 5000)
+  }
+  })
+  }
+
+  jQuery(document).ready(function() {
+  setTimeout(check_status, 5000)
+  });
+

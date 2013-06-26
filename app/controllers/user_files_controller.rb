@@ -45,10 +45,10 @@ class UserFilesController < ApplicationController
       @user_file = UserFile.new
       upload_dir = Rails.root.join('public', 'uploads')
       Utils.check_folder(upload_dir)
-      File.open(upload_dir.join(uploaded_io.original_filename), 'wb') do |file|
+      File.open(upload_dir.join(Utils.conver_file_name(uploaded_io.original_filename)), 'wb') do |file|
         respond_to do |format|
           if file.write(uploaded_io.read)
-            @user_file.name = uploaded_io.original_filename
+            @user_file.name = Utils.conver_file_name(uploaded_io.original_filename)
             @user_file.user = current_user
             if @user_file.save()
               format.html { redirect_to users_path, notice: 'User file was successfully created.' }
@@ -91,6 +91,13 @@ class UserFilesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to user_files_url }
       format.json { head :no_content }
+    end
+  end
+
+  def check_status
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: {:status => session[:status].present?} }
     end
   end
 end

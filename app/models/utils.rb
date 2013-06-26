@@ -5,4 +5,8 @@ class Utils
       FileUtils.chmod_R(0777, dir_path)
     end
   end
+
+  def self.conver_file_name(file_name)
+    file_name.gsub(/['"%\$\\\/() ]/, '_')
+  end
 end

@@ -12,6 +12,16 @@ class UploadWrapper
     record.input_format = file_ext
     record.output_format = output_format
 
+    #batch = Sidekiq::Batch.new
+    #batch.notify(:callback, :target => MyClass)
+    #batch.jobs do
     ConvertWorker::perform_async(input_file_name, file_ext, output_file_name, output_format)
+    #end
   end
 end
+
+#class MyClass
+#  def batch_complete(status)
+#    session[:status] = 'OK'
+#  end
+#end
