@@ -51,8 +51,9 @@ class UserFilesController < ApplicationController
             if file.write(uploaded_io.read)
               @user_file.name = Utils.conver_file_name(uploaded_io.original_filename)
               @user_file.user = current_user
+              @user_file.content_type = uploaded_io.content_type
               if @user_file.save()
-                format.html { redirect_to users_path, notice: 'User file was successfully created.' }
+                format.html { redirect_to current_user, notice: 'File was successful uploaded' }
                 format.json { render json: @user_file, status: :created, location: users_path }
               else
                 format.html { render action: 'new' }
@@ -105,5 +106,23 @@ class UserFilesController < ApplicationController
       format.html # new.html.erb
       format.json { render json: {:status => session[:status].present?} }
     end
+  end
+
+  def send_to_save
+    if params[:file_id].present?
+      file_obj = UserFile.find(params[:file_id])
+      @user = file_obj.user
+      file_path = Rails.root.join('public', 'uploads',  file_obj.file_name+file_obj.output_format)
+      if File.file?(file_path)
+        File.open(file_path, 'rb') do |file|
+          send_file(file, :filename =>  file_obj.name+file_obj.output_format, :stream => true, :buffer_size => 4096)
+        end
+      else
+        respond_to do |format|
+          format.html { redirect_to @user }
+        end
+      end
+    end
+
   end
 end

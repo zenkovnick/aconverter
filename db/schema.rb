@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130626095643) do
+ActiveRecord::Schema.define(:version => 20130627083020) do
 
   create_table "friendships", :force => true do |t|
     t.integer  "user_id"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(:version => 20130626095643) do
     t.string   "input_format"
     t.string   "output_format"
     t.string   "file_name"
+    t.string   "content_type"
   end
 
   create_table "users", :force => true do |t|
