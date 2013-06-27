@@ -45,10 +45,6 @@
       .row
         .span9
           = bootstrap_flash
-          - if notice
-            %p.alert.alert-notice= notice
-          - if alert
-            %p.alert.alert-error= alert
           = yield
         .span3
           .well.sidebar-nav
@@ -67,21 +63,4 @@
     / Placed at the end of the document so the pages load faster
     = javascript_include_tag "application"
 
-
-%script(type="text/javascript")
-  function check_status(){
-  jQuery.ajax({
-  url: '/check-status',
-  dataType: 'json',
-  type: 'get',
-  success: function(data) {
-  alert(data.status)
-  setTimeout(check_status, 5000)
-  }
-  })
-  }
-
-  jQuery(document).ready(function() {
-  setTimeout(check_status, 5000)
-  });
 

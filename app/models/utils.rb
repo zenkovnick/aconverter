@@ -9,4 +9,8 @@ class Utils
   def self.conver_file_name(file_name)
     file_name.gsub(/['"%\$\\\/() ]/, '_')
   end
+
+  def self.check_content_type(content_type)
+    ['audio/ogg', 'audio/flac', 'audio/mp3'].include?(content_type)
+  end
 end

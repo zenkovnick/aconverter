@@ -1,5 +1,7 @@
 - if user_signed_in?
-  %h1 Listing users
+  = link_to 'View My Audio Files', current_user
+
+  %h1 Friends List
 
   %table
     %tr
@@ -10,16 +12,18 @@
       %th
       %th
       %th
-    - if @friendships.present? || @inverse_friendships.present?
-      - @friendships.each do |friendship|
+    - if @user_info[:forward_friendships].present? || @user_info[:inverse_friendships].present?
+      - @user_info[:forward_friendships].each do |friendship|
         %tr
-          %td= friendship.friend.email
+          %td
+            = link_to friendship.friend.email, friendship.friend
           %td= friendship.friend.nickname
           %td= friendship.friend.provider
           %td= friendship.friend.url
-      - @inverse_friendships.each do |inverse_friendship|
+      - @user_info[:inverse_friendships].each do |inverse_friendship|
         %tr
-          %td= inverse_friendship.user.email
+          %td
+            = link_to inverse_friendship.user.email, inverse_friendship.user
           %td= inverse_friendship.user.nickname
           %td= inverse_friendship.user.provider
           %td= inverse_friendship.user.url
@@ -28,6 +32,4 @@
         %td No friends
 
   %br
-
-  = link_to 'Find Friends', :controller => 'users', :action => 'search', :method => :get
-  = link_to 'Upload File', new_user_file_path
+  = link_to 'Find friends', :controller => 'users', :action => 'search', :method => :get

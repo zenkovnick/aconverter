@@ -45,22 +45,28 @@ class UserFilesController < ApplicationController
       @user_file = UserFile.new
       upload_dir = Rails.root.join('public', 'uploads')
       Utils.check_folder(upload_dir)
-      File.open(upload_dir.join(Utils.conver_file_name(uploaded_io.original_filename)), 'wb') do |file|
-        respond_to do |format|
-          if file.write(uploaded_io.read)
-            @user_file.name = Utils.conver_file_name(uploaded_io.original_filename)
-            @user_file.user = current_user
-            if @user_file.save()
-              format.html { redirect_to users_path, notice: 'User file was successfully created.' }
-              format.json { render json: @user_file, status: :created, location: users_path }
+      respond_to do |format|
+        if Utils.check_content_type(uploaded_io.content_type)
+          File.open(upload_dir.join(Utils.conver_file_name(uploaded_io.original_filename)), 'wb') do |file|
+            if file.write(uploaded_io.read)
+              @user_file.name = Utils.conver_file_name(uploaded_io.original_filename)
+              @user_file.user = current_user
+              if @user_file.save()
+                format.html { redirect_to users_path, notice: 'User file was successfully created.' }
+                format.json { render json: @user_file, status: :created, location: users_path }
+              else
+                format.html { render action: 'new' }
+                format.json { render json: @user_file.errors, status: :unprocessable_entity }
+              end
             else
               format.html { render action: 'new' }
               format.json { render json: @user_file.errors, status: :unprocessable_entity }
             end
-          else
-            format.html { render action: 'new' }
-            format.json { render json: @user_file.errors, status: :unprocessable_entity }
           end
+        else
+          flash[:notice] = 'File type is not supproted'
+          format.html { render action: 'new' }
+          format.json { render json: @user_file.errors, status: :unprocessable_entity }
         end
       end
     end

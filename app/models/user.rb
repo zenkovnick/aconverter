@@ -17,14 +17,19 @@ class User < ActiveRecord::Base
 
   def is_friend?(user)
     friendship = Friendship.where(:user_id => self.id, :friend_id => user.id).first
-    !friendship.nil?
+    !(friendship.nil?)
   end
 
   def is_active_friend?(user)
     friendship = Friendship.where(:user_id => self.id, :friend_id => user.id).first
-    unless friendship.nil?
-      friendship.is_active
+    if friendship.nil?
+      inverse_friendship = Friendship.where(:user_id => user.id, :friend_id => self.id).first
+      unless inverse_friendship.nil?
+        is_active = inverse_friendship.is_active
+      end
+    else
+      is_active = friendship.is_active
     end
-
+    return is_active
   end
 end

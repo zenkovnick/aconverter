@@ -16,8 +16,12 @@ class UsersController < ApplicationController
 
   def index
     if user_signed_in?
-      @friendships = current_user.friendships.where(:is_active => true)
-      @inverse_friendships = current_user.inverse_friendships.where(:is_active => true)
+
+      @user_info = {
+          :forward_friendships => current_user.friendships.where(:is_active => true),
+          :inverse_friendships => current_user.inverse_friendships.where(:is_active => true),
+      }
+
       respond_to do |format|
         format.html # index.html.erb
         format.json { render json: @users }
@@ -29,10 +33,15 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     @user = User.find(params[:id])
-
     respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @user }
+      if current_user.is_active_friend?(@user) || current_user === @user
+        @files = @user.user_files
+          format.html # show.html.erb
+          format.json { render json: @user }
+      else
+        format.html { redirect_to users_path, notice: 'This user is not your friend' }
+        format.json { render json: 'This user is not your friend', status: :unprocessable_entity }
+      end
     end
   end
 
