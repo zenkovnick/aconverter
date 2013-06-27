@@ -25,12 +25,8 @@
             %span.icon-bar
             %span.icon-bar
             %span.icon-bar
-          %a.brand(href="#") Aconverter
+          =link_to 'Aconverter', users_path, {:class => 'brand'}
           .container.nav-collapse
-            %ul.nav
-              %li= link_to 'Link 1', '/path1'
-              %li= link_to 'Link 2', '/path2'
-              %li= link_to 'Link 3', '/path3'
             %p.navbar-text.pull-right
               - if user_signed_in?
                 Logged in as
@@ -46,14 +42,6 @@
         .span9
           = bootstrap_flash
           = yield
-        .span3
-          .well.sidebar-nav
-            %h3 Sidebar
-            %ul.nav.nav-list
-              %li.nav-header Sidebar
-              %li= link_to "Link 1", "/path1"
-              %li= link_to "Link 2", "/path2"
-              %li= link_to "Link 3", "/path3"
     
       %footer
         %p &copy; Company 2013

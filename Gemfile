@@ -16,13 +16,14 @@ group :assets do
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
-
+  gem 'therubyracer'
+  gem 'less-rails' #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
+  gem 'haml-rails'
   gem 'uglifier', '>= 1.0.3'
+  gem 'jquery-rails'
+  gem 'twitter-bootstrap-rails'
 end
 
-gem 'jquery-rails'
-gem 'haml-rails'
-gem 'twitter-bootstrap-rails'
 gem 'devise'
 
 #gem 'ruby-debug-base19x', '0.11.30.pre12'
