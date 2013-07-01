@@ -22,6 +22,7 @@ class UploadWrapper
 
       }
       ConvertWorker::perform_async(file_info)
+      #session[:status] = 'uploading'
     end
   end
 end

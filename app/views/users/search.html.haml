@@ -10,13 +10,13 @@
           %li= msg
 
   .field
-    = f.label :email, :class => 'control-label'
-    = f.text_field :email, :class => 'search-query'
+    = f.label :email, :class => 'control-label span2'
+    = f.text_field :email, :class => 'search-query span3'
   .field
-    = f.label :username, :class => 'control-label'
-    = f.text_field :username, :class => 'search-query'
+    = f.label :username, :class => 'control-label span2'
+    = f.text_field :username, :class => 'search-query span3'
   .actions
-    = f.submit 'Search', :class => 'btn btn-success'
+    = f.submit 'Search', :class => 'btn btn-success span2'
 
 %div
   - if @friends.present?
@@ -28,10 +28,14 @@
           %div.span4
             = friend.email
           %div.span4
-            - if current_user.is_my_friend?(friend)
-              - if current_user.is_active_friend?(friend)
-                = button_to 'Remove from friends', { :controller => 'friendships', :action => 'destroy_friendship', :friend_id => friend.id}
-              - else
-                Inactive Friend
+            - if friend === current_user
+              It is You
             - else
-              = button_to 'Add to friends', { :controller => 'friendships', :action => 'new_friendship', :friend_id => friend.id}
+              - if current_user.is_my_friend?(friend)
+                - if current_user.is_active_friend?(friend)
+                  = link_to 'Remove from friends', { :controller => 'friendships', :action => 'destroy_friendship', :friend_id => friend.id}, :class => 'btn btn-danger'
+                - else
+                  Inactive Friend
+              - else
+                = link_to 'Add to friends', { :controller => 'friendships', :action => 'new_friendship', :friend_id => friend.id}, :class=> 'btn btn-success'
+

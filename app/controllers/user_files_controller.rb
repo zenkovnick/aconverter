@@ -40,36 +40,42 @@ class UserFilesController < ApplicationController
   # POST /user_files
   # POST /user_files.json
   def create
-    uploaded_io = params[:user_file][:name]
-    if uploaded_io.present?
-      @user_file = UserFile.new
-      upload_dir = Rails.root.join('public', 'uploads')
-      Utils.check_folder(upload_dir)
-      respond_to do |format|
-        if Utils.check_content_type(uploaded_io.content_type)
-          File.open(upload_dir.join(Utils.conver_file_name(uploaded_io.original_filename)), 'wb') do |file|
-            if file.write(uploaded_io.read)
-              @user_file.name = Utils.conver_file_name(uploaded_io.original_filename)
-              @user_file.user = current_user
-              @user_file.content_type = uploaded_io.content_type
-              @user_file.status = 'queued'
-              if @user_file.save()
-                format.html { redirect_to current_user, notice: 'File was successful uploaded' }
-                format.json { render json: @user_file, status: :created, location: users_path }
+    @user_file = UserFile.new
+    respond_to do |format|
+      if params.has_key?(:user_file)
+        uploaded_io = params[:user_file][:name]
+        if uploaded_io.present?
+          upload_dir = Rails.root.join('public', 'uploads')
+          Utils.check_folder(upload_dir)
+          if Utils.check_content_type(uploaded_io.content_type)
+            File.open(upload_dir.join(Utils.conver_file_name(uploaded_io.original_filename)), 'wb') do |file|
+              if file.write(uploaded_io.read)
+                @user_file.name = Utils.conver_file_name(uploaded_io.original_filename)
+                @user_file.user = current_user
+                @user_file.content_type = uploaded_io.content_type
+                @user_file.status = 'queued'
+                if @user_file.save()
+                  format.html { redirect_to current_user }
+                  format.json { render json: @user_file, status: :created, location: users_path }
+                else
+                  format.html { render action: 'new' }
+                  format.json { render json: @user_file.errors, status: :unprocessable_entity }
+                end
               else
                 format.html { render action: 'new' }
                 format.json { render json: @user_file.errors, status: :unprocessable_entity }
               end
-            else
-              format.html { render action: 'new' }
-              format.json { render json: @user_file.errors, status: :unprocessable_entity }
             end
+          else
+            flash[:notice] = 'File type is not supproted'
+            format.html { render action: 'new' }
+            format.json { render json: @user_file.errors, status: :unprocessable_entity }
           end
-        else
-          flash[:notice] = 'File type is not supproted'
-          format.html { render action: 'new' }
-          format.json { render json: @user_file.errors, status: :unprocessable_entity }
         end
+      else
+        flash[:notice] = 'Choose file before upload'
+        format.html { render action: 'new' }
+        format.json { render json: @user_file.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -109,20 +115,6 @@ class UserFilesController < ApplicationController
     end
   end
 
-  def ajax_get
-    @user = User.find(params[:user_id])
-    respond_to do |format|
-      if @user.present?
-        @files = @user.user_files.where(:status => 'uploaded')
-        partial_content = render_to_string :template => 'users/_audio_list', :layout => false, :locals => {:user => @user, :files => @files}
-        format.html # new.html.erb
-        format.json { render json: {:result => 'OK', :content => partial_content} }
-      else
-        format.html # new.html.erb
-        format.json { render json: {:result => 'Failed'} }
-      end
-    end
-  end
 
   def send_to_save
     if params[:file_id].present?

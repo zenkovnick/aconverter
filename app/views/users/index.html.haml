@@ -14,11 +14,9 @@
       %div
         No friends
     %br
+      = link_to 'Find friends', {:controller => 'users', :action => 'search', :method => :get}, :class => 'btn btn-primary span2'
     %br
-    %li
-      = link_to 'Find friends', :controller => 'users', :action => 'search', :method => :get
-    %li
-      = link_to 'View My Audio Files', current_user
+      = link_to 'View My Audio Files', current_user, :method => :get, :class => 'btn btn-primary span2'
 
 
 

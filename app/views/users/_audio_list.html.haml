@@ -1,13 +1,10 @@
 %ul.nav
   - if @files.present?
     - @files.each do |file|
-      %li
-        = link_to "#{file.name}#{file.output_format}", "/user-files/#{file.id}/save"
+      = render :partial =>  'users/audio_entry', :locals => {:file_entry => file}
   - else
     %li
       No audio files
 
-  - if @user.id == current_user.id
-    %br
-    %li
-      = link_to 'Upload new audio file', new_user_file_path
+- if @user.id == current_user.id
+  = link_to 'Upload new audio file', new_user_file_path, :class => 'btn btn-primary span3'

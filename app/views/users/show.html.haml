@@ -1,6 +1,10 @@
 %ul.nav
-  %li
-    = link_to 'Return to friends list', users_path
+  = link_to 'Return to friends list', users_path, :class => 'btn btn-primary span3'
+  .alerts
+    .alert.fade.alert-success
+      %button.close
+        ×
+
   %h1 Listing audio files
   %div.user-list
     = render 'audio_list', :files => @files, :user => @user
@@ -8,13 +12,21 @@
 %script{:type => 'text/javascript'}
   :plain
     function getFiles() {
+      jQuery(".alerts .alert").removeClass("in");
       jQuery.ajax({
-          url: "/user-files/#{@user.id}/get",
+          url: "/users/#{@user.id}/files/get",
           type: "get",
           dataType: "json",
           success: function(data){
             if(data.result == "OK"){
-              jQuery("div.user-list").html(data.content)
+              if(data.new_files_count){
+                jQuery("div.user-list ul").prepend(data.content);
+                if(data.new_files_count == 1){
+                  jQuery(".alerts .alert").text(data.new_files_count + " file was uploaded").addClass("in");
+                } else {
+                  jQuery(".alerts .alert").text(data.new_files_count + " files were uploaded").addClass("in");
+                }
+              }
               setTimeout(getFiles, 10000);
             }
           }

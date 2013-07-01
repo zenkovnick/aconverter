@@ -11,8 +11,29 @@
  *= require_self
  *= require_tree .
  *= require bootstrap_and_overrides.css
+ *=require twitter-bootstrap-static/bootstrap
+
+  Use Font Awesome icons (default)
+  To use Glyphicons sprites instead of Font Awesome, replace with "require twitter-bootstrap-static/sprites"
+ *=require twitter-bootstrap-static/sprites
  */
+a.btn {
+    display: block;
+    float: none;
+}
+
+a.btn:visited {
+    color: #ffffff !important;
+}
+
+a.btn.span2, a.btn.span3  {
+    margin: 0
+}
 
 .main-wrapper {
     margin: 100px 0;
+}
+
+.alerts {
+    margin: 20px 0;
 }
