@@ -109,6 +109,21 @@ class UserFilesController < ApplicationController
     end
   end
 
+  def ajax_get
+    @user = User.find(params[:user_id])
+    respond_to do |format|
+      if @user.present?
+        @files = @user.user_files.where(:status => 'uploaded')
+        partial_content = render_to_string :template => 'users/_audio_list', :layout => false, :locals => {:user => @user, :files => @files}
+        format.html # new.html.erb
+        format.json { render json: {:result => 'OK', :content => partial_content} }
+      else
+        format.html # new.html.erb
+        format.json { render json: {:result => 'Failed'} }
+      end
+    end
+  end
+
   def send_to_save
     if params[:file_id].present?
       file_obj = UserFile.find(params[:file_id])

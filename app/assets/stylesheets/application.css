@@ -12,3 +12,7 @@
  *= require_tree .
  *= require bootstrap_and_overrides.css
  */
+
+.main-wrapper {
+    margin: 100px 0;
+}

@@ -2,37 +2,23 @@
 
   %h1 Friends List
 
-  %table
-    %tr
-      %th Email
-      %th Nickname
-      %th Provider
-      %th Url
-      %th
-      %th
-      %th
+  %ul.nav
     - if @user_info[:forward_friendships].present? || @user_info[:inverse_friendships].present?
       - @user_info[:forward_friendships].each do |friendship|
-        %tr
-          %td
-            = link_to friendship.friend.email, friendship.friend
-          %td= friendship.friend.nickname
-          %td= friendship.friend.provider
-          %td= friendship.friend.url
+        %li
+          = link_to friendship.friend.email, friendship.friend
       - @user_info[:inverse_friendships].each do |inverse_friendship|
-        %tr
-          %td
-            = link_to inverse_friendship.user.email, inverse_friendship.user
-          %td= inverse_friendship.user.nickname
-          %td= inverse_friendship.user.provider
-          %td= inverse_friendship.user.url
+        %li
+          = link_to inverse_friendship.user.email, inverse_friendship.user
     - else
-      %tr
-        %td No friends
+      %div
+        No friends
+    %br
+    %br
+    %li
+      = link_to 'Find friends', :controller => 'users', :action => 'search', :method => :get
+    %li
+      = link_to 'View My Audio Files', current_user
 
-  %br
-  %br
-  = link_to 'Find friends', :controller => 'users', :action => 'search', :method => :get
-  %br
-  = link_to 'View My Audio Files', current_user
+
 

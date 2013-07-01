@@ -1,7 +1,7 @@
 Aconverter::Application.routes.draw do
   resources :user_files
   match '/user-files/:file_id/save' => 'user_files#send_to_save'
-  match '/user-files/check-status' => 'user_files#check_status'
+  match '/user-files/:user_id/get' => 'user_files#ajax_get'
 
 
   match '/friendships/new-friendship' => 'friendships#new_friendship'

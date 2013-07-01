@@ -1,13 +1,25 @@
-= link_to 'Return to friends list', users_path
-%h1 Listing audio files
-- if @files.present?
-  - @files.each do |file|
-    %div
-      = link_to "#{file.name}#{file.output_format}", "/user-files/#{file.id}/save"
-- else
-  %span
-    No audio files
+%ul.nav
+  %li
+    = link_to 'Return to friends list', users_path
+  %h1 Listing audio files
+  %div.user-list
+    = render 'audio_list', :files => @files, :user => @user
 
-- if @user.id == current_user.id
-  %br
-  = link_to 'Upload new audio file', new_user_file_path
+%script{:type => 'text/javascript'}
+  :plain
+    function getFiles() {
+      jQuery.ajax({
+          url: "/user-files/#{@user.id}/get",
+          type: "get",
+          dataType: "json",
+          success: function(data){
+            if(data.result == "OK"){
+              jQuery("div.user-list").html(data.content)
+              setTimeout(getFiles, 10000);
+            }
+          }
+      });
+    };
+
+    setTimeout(getFiles, 10000);
+

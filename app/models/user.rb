@@ -15,9 +15,20 @@ class User < ActiveRecord::Base
   has_many :inverse_friendships, :class_name => 'Friendship', :foreign_key => 'friend_id'
   has_many :friends, :through => :inverse_friendships, :source => :user
 
-  def is_friend?(user)
+  def is_my_friend?(user)
     friendship = Friendship.where(:user_id => self.id, :friend_id => user.id).first
     !(friendship.nil?)
+  end
+
+  def is_friend?(user)
+
+    friendship = Friendship.where(:user_id => self.id, :friend_id => user.id).first
+    if friendship.nil?
+      inverse_friendship = Friendship.where(:user_id => user.id, :friend_id => self.id).first
+    else
+      inverse_friendship = nil
+    end
+    !(friendship.nil? && inverse_friendship.nil?)
   end
 
   def is_active_friend?(user)

@@ -1,4 +1,7 @@
-= form_for @user, :url => { :action => 'search' } do |f|
+%h2
+  Find new friends
+
+= form_for @user, :url => { :action => 'search' }, :html => {:class => 'form-search'} do |f|
   - if @user.errors.any?
     #error_explanation
       %h2= "#{pluralize(@user.errors.count, 'error')} prohibited this user from being saved:"
@@ -7,26 +10,28 @@
           %li= msg
 
   .field
-    = f.label :email
-    = f.text_field :email
+    = f.label :email, :class => 'control-label'
+    = f.text_field :email, :class => 'search-query'
   .field
-    = f.label :username
-    = f.text_field :username
+    = f.label :username, :class => 'control-label'
+    = f.text_field :username, :class => 'search-query'
   .actions
-    = f.submit 'Search'
+    = f.submit 'Search', :class => 'btn btn-success'
 
 %div
   - if @friends.present?
-    - @friends.each do |friend|
-      %span
-        = friend.username.blank? ? 'No Username' : friend.username
-      %span
-        = friend.email
-      %span
-        - if current_user.is_friend?(friend)
-          - if current_user.is_active_friend?(friend)
-            = link_to 'Remove from friends', { :controller => 'friendships', :action => 'destroy_friendship', :friend_id => friend.id}
-          - else
-            Inactive Friend
-        - else
-          = link_to 'Add to friends', { :controller => 'friendships', :action => 'new_friendship', :friend_id => friend.id}
+    %ul.nav
+      - @friends.each do |friend|
+        %li.row
+          %div.span4
+            = friend.username.blank? ? 'No Username' : friend.username
+          %div.span4
+            = friend.email
+          %div.span4
+            - if current_user.is_my_friend?(friend)
+              - if current_user.is_active_friend?(friend)
+                = button_to 'Remove from friends', { :controller => 'friendships', :action => 'destroy_friendship', :friend_id => friend.id}
+              - else
+                Inactive Friend
+            - else
+              = button_to 'Add to friends', { :controller => 'friendships', :action => 'new_friendship', :friend_id => friend.id}

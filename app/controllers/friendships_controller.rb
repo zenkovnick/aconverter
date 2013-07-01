@@ -17,9 +17,19 @@ class FriendshipsController < ApplicationController
   end
 
   def destroy_friendship
-    @friendship = current_user.friendships.find(params[:id])
-    @friendship.destroy
-    flash[:notice] = 'Removed friendship.'
-    redirect_to current_user
+
+    @friendship = current_user.friendships.find_by_friend_id(User.find(params[:friend_id]))
+    if @friendship.present?
+      @friendship.destroy
+      flash[:notice] = 'Removed friendship.'
+    else
+      @inverse_friendship = current_user.inverse_friendships.find_by_user_id(User.find(params[:friend_id]))
+      if @inverse_friendship.present?
+        @inverse_friendship.destroy
+        flash[:notice] = 'Removed friendship.'
+      end
+    end
+
+    redirect_to users_path
   end
 end
