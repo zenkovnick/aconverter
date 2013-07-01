@@ -1,5 +1,4 @@
 - if user_signed_in?
-  = link_to 'View My Audio Files', current_user
 
   %h1 Friends List
 
@@ -32,4 +31,8 @@
         %td No friends
 
   %br
+  %br
   = link_to 'Find friends', :controller => 'users', :action => 'search', :method => :get
+  %br
+  = link_to 'View My Audio Files', current_user
+

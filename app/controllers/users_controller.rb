@@ -35,7 +35,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     respond_to do |format|
       if current_user.is_active_friend?(@user) || current_user === @user
-        @files = @user.user_files
+        @files = @user.user_files.where(:status => 'uploaded')
           format.html # show.html.erb
           format.json { render json: @user }
       else

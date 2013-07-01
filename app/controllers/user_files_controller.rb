@@ -52,6 +52,7 @@ class UserFilesController < ApplicationController
               @user_file.name = Utils.conver_file_name(uploaded_io.original_filename)
               @user_file.user = current_user
               @user_file.content_type = uploaded_io.content_type
+              @user_file.status = 'queued'
               if @user_file.save()
                 format.html { redirect_to current_user, notice: 'File was successful uploaded' }
                 format.json { render json: @user_file, status: :created, location: users_path }
