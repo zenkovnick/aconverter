@@ -20,6 +20,7 @@
           success: function(data){
             if(data.result == "OK"){
               if(data.new_files_count){
+                jQuery("li.no-files").remove();
                 jQuery("div.user-list ul").prepend(data.content);
                 if(data.new_files_count == 1){
                   jQuery(".alerts .alert").text(data.new_files_count + " file was uploaded").addClass("in");

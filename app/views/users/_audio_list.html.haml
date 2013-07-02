@@ -3,7 +3,7 @@
     - @files.each do |file|
       = render :partial =>  'users/audio_entry', :locals => {:file_entry => file}
   - else
-    %li
+    %li.no-files
       No audio files
 
 - if @user.id == current_user.id

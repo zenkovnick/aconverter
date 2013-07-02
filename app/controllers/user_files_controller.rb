@@ -1,4 +1,6 @@
 class UserFilesController < ApplicationController
+  before_filter :require_login
+
   # GET /user_files
   # GET /user_files.json
   def index
@@ -132,5 +134,17 @@ class UserFilesController < ApplicationController
       end
     end
 
+  end
+
+  protected
+
+  def require_login
+    unless user_signed_in?
+      #flash[:error] = "You must be logged in to access this section"
+      respond_to do |format|
+        format.html { redirect_to new_user_session_path }
+        format.json { head :no_content }
+      end
+    end
   end
 end

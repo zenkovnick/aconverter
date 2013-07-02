@@ -1,4 +1,6 @@
 class FriendshipsController < ApplicationController
+  before_filter :require_login
+
   def new_friendship
     @friendship = Friendship.where(:user_id => params[:friend_id], :friend_id => current_user.id).first
     if @friendship.present?
@@ -31,5 +33,17 @@ class FriendshipsController < ApplicationController
     end
 
     redirect_to users_path
+  end
+
+  protected
+
+  def require_login
+    unless user_signed_in?
+      #flash[:error] = "You must be logged in to access this section"
+      respond_to do |format|
+        format.html { redirect_to new_user_session_path }
+        format.json { head :no_content }
+      end
+    end
   end
 end

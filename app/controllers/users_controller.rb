@@ -1,22 +1,11 @@
 class UsersController < ApplicationController
   before_filter :require_login
 
-  private
-
-  def require_login
-    unless user_signed_in?
-      flash[:error] = "You must be logged in to access this section"
-    end
-  end
-
-  public
-
   # GET /users
   # GET /users.json
 
   def index
     if user_signed_in?
-
       @user_info = {
           :forward_friendships => current_user.friendships.where(:is_active => true),
           :inverse_friendships => current_user.inverse_friendships.where(:is_active => true),
@@ -136,6 +125,7 @@ class UsersController < ApplicationController
           file.status = 'available'
           file.save
         end
+        puts files_count
         format.html # new.html.erb
         format.json { render json: {:result => 'OK', :content => partial_content, :new_files_count => files_count} }
       else
@@ -144,4 +134,17 @@ class UsersController < ApplicationController
       end
     end
   end
+
+  protected
+
+  def require_login
+    unless user_signed_in?
+      #flash[:error] = "You must be logged in to access this section"
+      respond_to do |format|
+        format.html { redirect_to new_user_session_path }
+        format.json { head :no_content }
+      end
+    end
+  end
+
 end
