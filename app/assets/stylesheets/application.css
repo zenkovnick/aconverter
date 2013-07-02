@@ -47,6 +47,13 @@ ul.nav.search-results li{
     border-bottom: 1px solid #CCC;
 }
 
+/* Upload file */
+
+.upload-file {
+    padding: 20px 0;
+}
+
+
 .main-wrapper {
     margin: 100px 0;
 }

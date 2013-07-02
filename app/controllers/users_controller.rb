@@ -27,8 +27,9 @@ class UsersController < ApplicationController
     respond_to do |format|
       if current_user.is_active_friend?(@user) || current_user === @user
         @files = @user.user_files.where(:status => 'available').order('created_at DESC')
-          format.html # show.html.erb
-          format.json { render json: @user }
+        @user.user_files.update_all({:status => 'available'}, {:status => 'uploaded'})
+        format.html # show.html.erb
+        format.json { render json: @user }
       else
         format.html { redirect_to users_path, notice: 'This user is not your friend' }
         format.json { render json: 'This user is not your friend', status: :unprocessable_entity }
@@ -111,10 +112,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def upload
-    @file = UserFile.new
-  end
-
   def ajax_get
     @user = User.find(params[:user_id])
     respond_to do |format|
@@ -124,10 +121,11 @@ class UsersController < ApplicationController
         partial_content = ''
         @files.each do |file|
           partial_content += render_to_string :template => 'users/_audio_entry', :layout => false, :locals => {:file_entry => file}
-          file.status = 'available'
-          file.save
         end
-        puts files_count
+        if files_count
+          @user.user_files.update_all({:status => 'available'}, {:status => 'uploaded'})
+        end
+
         format.html # new.html.erb
         format.json { render json: {:result => 'OK', :content => partial_content, :new_files_count => files_count} }
       else

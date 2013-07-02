@@ -1,12 +1,14 @@
-= form_for @user_file do |f|
-  - if @user_file.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@user_file.errors.count, "error")} prohibited this user_file from being saved:"
-      %ul
-        - @user_file.errors.full_messages.each do |msg|
-          %li= msg
+= link_to 'Back to files list', current_user, :method => :get, :class => 'btn btn-primary'
+.upload-file
+  = form_for @user_file do |f|
+    - if @user_file.errors.any?
+      #error_explanation
+        %h2= "#{pluralize(@user_file.errors.count, "error")} prohibited this user_file from being saved:"
+        %ul
+          - @user_file.errors.full_messages.each do |msg|
+            %li= msg
 
-  .field
-    = f.file_field :name
-  .actions
-    = f.submit 'Upload File', :class => 'btn btn-success'
+    .field
+      = f.file_field :name
+    .actions
+      = f.submit 'Upload File', :class => 'btn btn-success'
