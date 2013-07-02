@@ -1,6 +1,6 @@
 - if user_signed_in?
 
-  %h1 Friends List
+  %h3 Friends List
 
   %ul.nav
     - if @user_info[:forward_friendships].present? || @user_info[:inverse_friendships].present?
@@ -15,7 +15,7 @@
         No friends
 
   - if @user_info[:invited].present?
-    %h1 Invited Users
+    %h3 Invited Users
     %ul.nav
       - @user_info[:invited].each do |invited_friendship|
         %li.row
@@ -26,7 +26,7 @@
 
 
   - if @user_info[:invites].present?
-    %h1 My Invites
+    %h3 My Invites
     %ul.nav
       - @user_info[:invites].each do |my_invite_friendship|
         %li.row

@@ -26,8 +26,8 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     respond_to do |format|
       if current_user.is_active_friend?(@user) || current_user === @user
-        @files = @user.user_files.where(:status => 'available').order('created_at DESC')
-        @user.user_files.update_all({:status => 'available'}, {:status => 'uploaded'})
+        @files = @user.user_files.where(:status => 'uploaded').order('created_at DESC')
+        #@user.user_files.update_all({:status => 'available'}, {:status => 'uploaded'})
         format.html # show.html.erb
         format.json { render json: @user }
       else
@@ -116,18 +116,22 @@ class UsersController < ApplicationController
     @user = User.find(params[:user_id])
     respond_to do |format|
       if @user.present?
-        @files = @user.user_files.where(:status => 'uploaded')
+        @files = @user.user_files.where(:status => 'uploaded').order('created_at DESC')
         files_count = @files.count
-        partial_content = ''
-        @files.each do |file|
-          partial_content += render_to_string :template => 'users/_audio_entry', :layout => false, :locals => {:file_entry => file}
-        end
-        if files_count
-          @user.user_files.update_all({:status => 'available'}, {:status => 'uploaded'})
-        end
+        offset = files_count - Integer(params[:files_count])
+        if offset != 0
+          partial_content = ''
+          @new_files = @files.limit(offset)
+          @new_files.each do |file|
+            partial_content += render_to_string :template => 'users/_audio_entry', :layout => false, :locals => {:file_entry => file}
+          end
 
-        format.html # new.html.erb
-        format.json { render json: {:result => 'OK', :content => partial_content, :new_files_count => files_count} }
+          format.html # new.html.erb
+          format.json { render json: {:result => 'OK', :content => partial_content, :new_files_count => offset} }
+        else
+          format.html # new.html.erb
+          format.json { render json: {:result => 'Not Modified'} }
+        end
       else
         format.html # new.html.erb
         format.json { render json: {:result => 'Failed'} }

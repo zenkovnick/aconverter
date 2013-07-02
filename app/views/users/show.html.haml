@@ -6,28 +6,32 @@
         ×
 
   %h1 Listing audio files
-  %div.user-list
+  %div.file-list
     = render 'audio_list', :files => @files, :user => @user
 
 %script{:type => 'text/javascript'}
   :plain
     function getFiles() {
       jQuery(".alerts .alert").removeClass("in");
+      var files_count = jQuery(".file-list ul li").length;
       jQuery.ajax({
           url: "/users/#{@user.id}/files/get",
           type: "get",
           dataType: "json",
+          data: {files_count: files_count},
           success: function(data){
             if(data.result == "OK"){
               if(data.new_files_count){
                 jQuery("li.no-files").remove();
-                jQuery("div.user-list ul").prepend(data.content);
+                jQuery("div.file-list ul").prepend(data.content);
                 if(data.new_files_count == 1){
                   jQuery(".alerts .alert").text(data.new_files_count + " file was uploaded").addClass("in");
                 } else {
                   jQuery(".alerts .alert").text(data.new_files_count + " files were uploaded").addClass("in");
                 }
               }
+              setTimeout(getFiles, 10000);
+            } else if(data.result == "Not Modified"){
               setTimeout(getFiles, 10000);
             }
           }
