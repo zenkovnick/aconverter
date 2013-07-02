@@ -4,12 +4,13 @@ class FriendshipsController < ApplicationController
   def new_friendship
     @friendship = Friendship.where(:user_id => params[:friend_id], :friend_id => current_user.id).first
     if @friendship.present?
+      flash[:notice] = 'Added friend.'
       @friendship.is_active = true
     else
+      flash[:notice] = 'Added friend. Wait for confirmation'
       @friendship = current_user.friendships.build(:friend_id => params[:friend_id])
     end
     if @friendship.save
-      flash[:notice] = 'Added friend. Wait for confirmation'
       redirect_to root_url
     else
       flash[:error] = 'Unable to add friend.'

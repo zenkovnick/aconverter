@@ -1,26 +1,28 @@
 %h2
   Find new friends
 
-= form_for @user, :url => { :action => 'search' }, :html => {:class => 'form-search'} do |f|
-  - if @user.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@user.errors.count, 'error')} prohibited this user from being saved:"
-      %ul
-        - @user.errors.full_messages.each do |msg|
-          %li= msg
+.find-friends-form
 
-  .field
-    = f.label :email, :class => 'control-label span2'
-    = f.text_field :email, :class => 'search-query span3'
-  .field
-    = f.label :username, :class => 'control-label span2'
-    = f.text_field :username, :class => 'search-query span3'
-  .actions
-    = f.submit 'Search', :class => 'btn btn-success span2'
+  = form_for @user, :url => { :action => 'search' }, :html => {:class => 'form-search'} do |f|
+    - if @user.errors.any?
+      #error_explanation
+        %h2= "#{pluralize(@user.errors.count, 'error')} prohibited this user from being saved:"
+        %ul
+          - @user.errors.full_messages.each do |msg|
+            %li= msg
+
+    .field
+      = f.label :email, :class => 'control-label span2'
+      = f.text_field :email, :class => 'search-query span3'
+    .field
+      = f.label :username, :class => 'control-label span2'
+      = f.text_field :username, :class => 'search-query span3'
+    .actions
+      = f.submit 'Search', :class => 'btn btn-success span2'
 
 %div
   - if @friends.present?
-    %ul.nav
+    %ul.nav.search-results
       - @friends.each do |friend|
         %li.row
           %div.span4

@@ -11,6 +11,7 @@ Aconverter::Application.routes.draw do
   resources :friendships
 
 
+  devise_for :users, :controllers => {:registrations => 'registrations'}
   devise_for :users
 
   resources :users
