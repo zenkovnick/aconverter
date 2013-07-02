@@ -53,9 +53,13 @@ ul.nav.search-results li{
     padding: 20px 0;
 }
 
-
+/* General styles */
 .main-wrapper {
     margin: 100px 0;
+}
+
+a.navbar-link:hover {
+    background: none;
 }
 
 .alerts {
