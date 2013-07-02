@@ -13,10 +13,35 @@
     - else
       %div
         No friends
-    %br
-      = link_to 'Find friends', {:controller => 'users', :action => 'search', :method => :get}, :class => 'btn btn-primary span2'
-    %br
-      = link_to 'View My Audio Files', current_user, :method => :get, :class => 'btn btn-primary span2'
+
+  - if @user_info[:invited].present?
+    %h1 Invited Users
+    %ul.nav
+      - @user_info[:invited].each do |invited_friendship|
+        %li.row
+          .span4
+            = invited_friendship.friend.email
+          .span4
+            = link_to 'Cancel invitation', { :controller => 'friendships', :action => 'destroy_friendship', :friend_id => invited_friendship.friend.id}, :class => 'btn btn-danger'
+
+
+  - if @user_info[:invites].present?
+    %h1 My Invites
+    %ul.nav
+      - @user_info[:invites].each do |my_invite_friendship|
+        %li.row
+          .span4
+            = my_invite_friendship.user.email
+          .span4
+            .btn-group
+              = link_to 'Add to friends', { :controller => 'friendships', :action => 'new_friendship', :friend_id => my_invite_friendship.user.id}, :class=> 'btn btn-success'
+              = link_to 'Cancel invitation', { :controller => 'friendships', :action => 'destroy_friendship', :friend_id => my_invite_friendship.user.id}, :class => 'btn btn-danger'
+
+
+  %br
+    = link_to 'Find friends', {:controller => 'users', :action => 'search', :method => :get}, :class => 'btn btn-primary span2'
+  %br
+    = link_to 'View My Audio Files', current_user, :method => :get, :class => 'btn btn-primary span2'
 
 
 

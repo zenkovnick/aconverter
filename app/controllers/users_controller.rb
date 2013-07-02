@@ -9,6 +9,8 @@ class UsersController < ApplicationController
       @user_info = {
           :forward_friendships => current_user.friendships.where(:is_active => true),
           :inverse_friendships => current_user.inverse_friendships.where(:is_active => true),
+          :invited => current_user.friendships.where(:is_active => false),
+          :invites => current_user.inverse_friendships.where(:is_active => false),
       }
 
       respond_to do |format|
