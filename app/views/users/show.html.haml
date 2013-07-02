@@ -13,7 +13,7 @@
   :plain
     function getFiles() {
       jQuery(".alerts .alert").removeClass("in");
-      var files_count = jQuery(".file-list ul li").length;
+      var files_count = jQuery(".file-list ul li").not(".no-files").length;
       jQuery.ajax({
           url: "/users/#{@user.id}/files/get",
           type: "get",
