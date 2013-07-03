@@ -1,5 +1,11 @@
 defaults: &defaults
   audio_output_format: .mp3
+  facebook_key:
+  facebook_secret:
+  vkontakte_key:
+  vkontakte_secret:
+  twitter_key:
+  twitter_secret:
 
 development:
   <<: *defaults

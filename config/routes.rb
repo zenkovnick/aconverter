@@ -11,8 +11,7 @@ Aconverter::Application.routes.draw do
   resources :friendships
 
 
-  devise_for :users, :controllers => {:registrations => 'registrations'}
-  devise_for :users
+  devise_for :users, :controllers => {:registrations => 'registrations', :omniauth_callbacks => 'users/omniauth_callbacks' }
 
   resources :users
   root :to => 'users#index'

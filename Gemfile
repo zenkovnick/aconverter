@@ -26,6 +26,10 @@ gem 'jquery-rails'
 gem 'twitter-bootstrap-rails'
 
 gem 'devise'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-vkontakte'
+gem 'omniauth-twitter'
 
 gem 'ruby-debug-ide'
 gem 'ruby-debug-base19x', '0.11.30.pre12'
