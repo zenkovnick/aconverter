@@ -1,3 +1,5 @@
+=javascript_include_tag :jquery
+=javascript_include_tag :faye
 %ul.nav
   = link_to 'Return to friends list', users_path, :class => 'btn btn-primary span3'
   .alerts
@@ -9,34 +11,16 @@
   %div.file-list
     = render 'audio_list', :files => @files, :user => @user
 
-%script{:type => 'text/javascript'}
-  :plain
-    function getFiles() {
-      jQuery(".alerts .alert").removeClass("in");
-      var files_count = jQuery(".file-list ul li").not(".no-files").length;
-      jQuery.ajax({
-          url: "/users/#{@user.id}/files/get",
-          type: "get",
-          dataType: "json",
-          data: {files_count: files_count},
-          success: function(data){
-            if(data.result == "OK"){
-              if(data.new_files_count){
-                jQuery("li.no-files").remove();
-                jQuery("div.file-list ul").prepend(data.content);
-                if(data.new_files_count == 1){
-                  jQuery(".alerts .alert").text(data.new_files_count + " file was uploaded").addClass("in");
-                } else {
-                  jQuery(".alerts .alert").text(data.new_files_count + " files were uploaded").addClass("in");
-                }
-              }
-              setTimeout(getFiles, 10000);
-            } else if(data.result == "Not Modified"){
-              setTimeout(getFiles, 10000);
-            }
-          }
+:javascript
+  $(function() {
+      var faye = new Faye.Client('http://127.0.0.1:9292/faye');
+      faye.subscribe("/files/new", function(data) {
+          var message = JSON.parse(data);
+          message = message[0];
+          $(".file-list ul").prepend("<li><a href='/users/files/"+message.id+"/save'>"+message.name+message.format+"</li>");
+          $(".alerts .alert").text("New file was uploaded").addClass("in");
+          setTimeout(function(){
+            $(".alerts .alert").removeClass("in");
+          }, 2000)
       });
-    };
-
-    setTimeout(getFiles, 10000);
-
+  });

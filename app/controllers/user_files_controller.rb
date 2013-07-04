@@ -57,7 +57,7 @@ class UserFilesController < ApplicationController
                 @user_file.content_type = uploaded_io.content_type
                 @user_file.status = 'queued'
                 if @user_file.save()
-                  format.html { redirect_to new_user_file_path, :notice => 'File conversion was queued' }
+                  format.html { redirect_to current_user }
                   format.json { render json: @user_file, status: :created, location: users_path }
                 else
                   format.html { render action: 'new' }

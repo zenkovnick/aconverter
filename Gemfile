@@ -31,6 +31,9 @@ gem 'omniauth-facebook'
 gem 'omniauth-vkontakte'
 gem 'omniauth-twitter'
 
+gem 'faye'
+gem 'thin'
+
 gem 'ruby-debug-ide'
 gem 'ruby-debug-base19x', '0.11.30.pre12'
 gem 'ruby-debug19', :require => 'ruby-debug'
