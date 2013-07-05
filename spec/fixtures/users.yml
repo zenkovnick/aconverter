@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+foo:
+  id: 1
+  username: foo
+  email: foo@example.com
+  encrypted_password: $2a$10$upBOtbKp2rMHyI7jQWJi7eFXOjfB3l4yuoBD7FVJOCLnDE9Y4GNg6
+
+bar:
+  id: 2
+  username: bar
+  email: bar@example.com
+  encrypted_password: $2a$10$upBOtbKp2rMHyI7jQWJi7eFXOjfB3l4yuoBD7FVJOCLnDE9Y4GNg6

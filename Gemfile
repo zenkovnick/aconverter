@@ -42,6 +42,10 @@ gem 'safe_attributes'
 gem 'sidekiq'
 gem 'redis'
 
+gem 'rspec'
+gem 'rspec-rails'
+gem 'rspec-sidekiq'
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
