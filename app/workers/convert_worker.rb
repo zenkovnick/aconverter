@@ -14,19 +14,20 @@ class ConvertWorker
     #if File.file?(output_file_path["path"]+output_format)
       puts "File #{output_file_path["path"]+output_format} exists"
       file = UserFile.where(:file_name => converted_file_name).first
+      p file
       if file.present?
         puts "UserFile #{converted_file_name+output_format} exists"
         vars = ['name' => file.name,
                 'format' => file.output_format,
                 'id' => file.id,
                ].to_json
+        puts 'Updating file status'
+        file.status = 'uploaded'
+        file.save
         puts 'Preparing connection to Faye server'
         message = {:channel => "/files/new", :data => vars, :ext => {:auth_token => FAYE_TOKEN}}
         uri = URI.parse('http://127.0.0.1:9292/faye')
         p Net::HTTP.post_form(uri, :message => message.to_json)
-        puts 'Updating file status'
-        file.status = 'uploaded'
-        file.save
       end
     #end
     File.delete(input_file_path["path"]+ext)

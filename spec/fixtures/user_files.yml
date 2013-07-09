@@ -4,5 +4,5 @@ one:
   user_id: 1
   name: Test
   output_format: '.mp3'
-  status: 'uploaded'
+  status: 'queued'
 

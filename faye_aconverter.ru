@@ -1,6 +1,8 @@
 require 'faye'
 require File.expand_path('../config/initializers/faye_config.rb', __FILE__)
 Faye::WebSocket.load_adapter('thin')
+Faye::Logging.log_level = :debug
+Faye.logger = lambda { |m| puts m }
 
 class ServerAuth
   def incoming(message, callback)

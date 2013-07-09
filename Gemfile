@@ -32,11 +32,12 @@ gem 'omniauth-vkontakte'
 gem 'omniauth-twitter'
 
 gem 'faye'
+gem 'faye-rails'
 gem 'thin'
 
-gem 'ruby-debug-ide'
-gem 'ruby-debug-base19x', '0.11.30.pre12'
-gem 'ruby-debug19', :require => 'ruby-debug'
+#gem 'ruby-debug-ide'
+#gem 'ruby-debug-base19x', '0.11.30.pre12'
+#gem 'ruby-debug19', :require => 'ruby-debug'
 
 gem 'safe_attributes'
 gem 'sidekiq'
@@ -47,6 +48,9 @@ gem 'rspec-rails'
 gem 'rspec-sidekiq'
 gem 'fabrication'
 gem 'fabrication-rails'
+gem 'capybara', '2.0.3'
+gem 'faker'
+gem 'database_cleaner'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

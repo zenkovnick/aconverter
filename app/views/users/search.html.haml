@@ -18,7 +18,7 @@
       = f.label :username, :class => 'control-label span2'
       = f.text_field :username, :class => 'search-query span3'
     .actions
-      = f.submit 'Search', :class => 'btn btn-success span2'
+      = f.submit 'Search', :class => 'btn btn-success span2', :id => 'user_search'
 
 %div
   - if @friends.present?

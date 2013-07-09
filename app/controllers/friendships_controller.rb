@@ -4,7 +4,7 @@ class FriendshipsController < ApplicationController
   def new_friendship
     @friendship = Friendship.where(:user_id => params[:friend_id], :friend_id => current_user.id).first
     if @friendship.present?
-      flash[:notice] = 'Added friend.'
+      flash[:notice] = 'Added friend. Now you are friends'
       @friendship.is_active = true
     else
       flash[:notice] = 'Added friend. Wait for confirmation'

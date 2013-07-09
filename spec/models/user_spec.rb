@@ -33,5 +33,9 @@ describe User do
       users(:bar).inverse_friendships.count.should be > 0
     end
 
+    it 'delete user' do
+      users(:foo).destroy
+      lambda { users(:foo).reload }.should raise_error(ActiveRecord::RecordNotFound)
+    end
   end
 end
