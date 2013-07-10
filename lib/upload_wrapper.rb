@@ -21,6 +21,7 @@ class UploadWrapper
           :converted_file_name => unique_name
 
       }
+      puts 'Start worker'
       ConvertWorker::perform_async(file_info)
       #session[:status] = 'uploading'
     end
