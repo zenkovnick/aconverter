@@ -51,6 +51,8 @@ gem 'fabrication-rails'
 gem 'capybara', '2.0.3'
 gem 'faker'
 gem 'database_cleaner'
+gem 'guard'
+gem 'guard-rspec'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
