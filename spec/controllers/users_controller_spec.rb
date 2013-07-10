@@ -1,4 +1,5 @@
-require "spec_helper"
+require 'spec_helper'
+require 'rspec/autorun'
 
 RSpec::Matchers::define :have_link_or_button do |text|
   match do |page|
